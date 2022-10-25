@@ -70,12 +70,7 @@ function setCardType(typeCard = "default") {
 
 globalThis.setCardType = setCardType
 
-const addButton = document.querySelector("#add-card")
 const form = document.querySelector("form")
-
-addButton.addEventListener("click", (event) => {
-  alert("Cartão Adicionado!")
-})
 
 form.addEventListener("submit", (event) => {
   event.preventDefault()
@@ -121,4 +116,29 @@ function updateExpiration(valueExpiration) {
   const ccExpiration = document.querySelector(".cc-expiration .value")
   ccExpiration.innerHTML =
     valueExpiration.length === 0 ? "02/32" : valueExpiration
+}
+
+const modal = document.querySelector("dialog")
+const addButton = document.querySelector("#add-card")
+const dialogDescription = document.querySelector("dialog div h3")
+
+addButton.addEventListener("click", (event) => {
+  modal.showModal()
+  validationForm()
+})
+function validationForm() {
+  const imgDialog = document.querySelector(".dialog div img")
+
+  if (
+    cardNumberMasked.value.length < 16 ||
+    securityCodeMasked.value.length < 3 ||
+    expirationDateMasked.value.length < 5 ||
+    cardHolderMasked.value.length === 0
+  ) {
+    dialogDescription.innerHTML = `Todos os campos precisam ser preenchidos`
+    imgDialog.setAttribute("src", "/erro.svg")
+  } else {
+    dialogDescription.innerHTML = `Olá, ${cardHolderMasked.value} seu cartão foi cadastrado com sucesso!`
+    imgDialog.setAttribute("src", "/success.svg")
+  }
 }
