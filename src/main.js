@@ -78,6 +78,7 @@ form.addEventListener("submit", (event) => {
 const cardHolder = document.querySelector("#card-holder")
 const cardHolderPattern = {
   mask: /^[A-zÀ-ú '´]+$/,
+  maxLength: 31,
 }
 const cardHolderMasked = IMask(cardHolder, cardHolderPattern)
 
