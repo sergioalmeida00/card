@@ -15,6 +15,9 @@
     />
   </head>
   <body>
+    <div id="fade" class="hide">
+      <div id="loader" class="loader"></div>
+    </div>
     <div id="app">
       <header>
         <img src="logo.svg" alt="ícone rocketpay" />
@@ -163,12 +166,13 @@
       </form>
     </div>
     <dialog class="dialog" id="card-dialog">
-      <div>
-        <h3></h3>
+      <h3>Cadastrado</h3>
+      <div class="description">
+        <p></p>
         <img src="" alt="" />
       </div>
     </dialog>
 
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/js/main.js"></script>
   </body>
 </html>

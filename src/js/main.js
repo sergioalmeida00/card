@@ -1,5 +1,8 @@
-import "./css/index.css"
+import "../css/index.css"
 import IMask from "imask"
+import { toggleLoader } from "./loader"
+import { validationForm, modal } from "./modal"
+import { inputValidation } from "./inputValidation"
 
 const ccBgColor01 = document.querySelector(".cc-bg svg > g g:nth-child(1) path")
 const ccBgColor02 = document.querySelector(".cc-bg svg > g g:nth-child(2) path")
@@ -70,11 +73,6 @@ function setCardType(typeCard = "default") {
 
 globalThis.setCardType = setCardType
 
-const form = document.querySelector("form")
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault()
-})
 const cardHolder = document.querySelector("#card-holder")
 const cardHolderPattern = {
   mask: /^[A-zÀ-ú '´]+$/,
@@ -84,8 +82,7 @@ const cardHolderMasked = IMask(cardHolder, cardHolderPattern)
 
 cardHolder.addEventListener("input", () => {
   const ccHolder = document.querySelector(".cc-holder .value")
-  ccHolder.innerHTML =
-    cardHolder.value.length === 0 ? "fulano da silva" : cardHolder.value
+  ccHolder.innerHTML = inputValidation(cardHolder.value, "fulano da silva")
 })
 
 securityCodeMasked.on("accept", () => {
@@ -94,7 +91,7 @@ securityCodeMasked.on("accept", () => {
 
 function updateSecurityCode(code) {
   const ccSecurity = document.querySelector(".cc-security .value")
-  ccSecurity.innerHTML = code.value.length === 0 ? "123" : code.value
+  ccSecurity.innerHTML = inputValidation(code.value, "123")
 }
 
 cardNumberMasked.on("accept", () => {
@@ -105,8 +102,7 @@ cardNumberMasked.on("accept", () => {
 
 function updateCardNumber(cardNumber) {
   const ccCardNumber = document.querySelector(".cc-info .cc-number")
-  ccCardNumber.innerHTML =
-    cardNumber.length === 0 ? "1234 5678 9012 3456" : cardNumber
+  ccCardNumber.innerHTML = inputValidation(cardNumber, "1234 5678 9012 3456")
 }
 
 expirationDateMasked.on("accept", () => {
@@ -115,31 +111,22 @@ expirationDateMasked.on("accept", () => {
 
 function updateExpiration(valueExpiration) {
   const ccExpiration = document.querySelector(".cc-expiration .value")
-  ccExpiration.innerHTML =
-    valueExpiration.length === 0 ? "02/32" : valueExpiration
+  ccExpiration.innerHTML = inputValidation(valueExpiration, "02/32")
 }
 
-const modal = document.querySelector("dialog")
-const addButton = document.querySelector("#add-card")
-const dialogDescription = document.querySelector("dialog div h3")
+const form = document.querySelector("form")
+form.addEventListener("submit", (event) => {
+  event.preventDefault()
+  toggleLoader()
 
-addButton.addEventListener("click", (event) => {
-  modal.showModal()
-  validationForm()
+  setTimeout(() => {
+    toggleLoader()
+    modal.showModal()
+    validationForm(
+      cardNumberMasked.value,
+      securityCodeMasked.value,
+      expirationDateMasked.value,
+      cardHolderMasked.value
+    )
+  }, 2000)
 })
-function validationForm() {
-  const imgDialog = document.querySelector(".dialog div img")
-
-  if (
-    cardNumberMasked.value.length < 16 ||
-    securityCodeMasked.value.length < 3 ||
-    expirationDateMasked.value.length < 5 ||
-    cardHolderMasked.value.length === 0
-  ) {
-    dialogDescription.innerHTML = `Todos os campos precisam ser preenchidos`
-    imgDialog.setAttribute("src", "/erro.svg")
-  } else {
-    dialogDescription.innerHTML = `Olá, ${cardHolderMasked.value} seu cartão foi cadastrado com sucesso!`
-    imgDialog.setAttribute("src", "/success.svg")
-  }
-}
