@@ -138,7 +138,12 @@
       <form action="">
         <div class="input-wrapper">
           <label for="card-number">Número do cartão</label>
-          <input id="card-number" placeholder="1234 5678 9012 3456" />
+          <input
+            id="card-number"
+            class="required"
+            placeholder="1234 5678 9012 3456"
+          />
+          <span class="span-required"> Campo precisa ter 16 digitos </span>
         </div>
 
         <div class="input-wrapper">
@@ -147,18 +152,26 @@
             id="card-holder"
             placeholder="FULANO DA SILVA"
             maxlength="30"
+            class="required"
           />
+          <span class="span-required">
+            Quantidade de minima de digitos 10
+          </span>
         </div>
 
         <div class="flex">
           <div class="input-wrapper">
             <label for="expiration-date">Expiração</label>
-            <input id="expiration-date" placeholder="12/32" />
+            <input id="expiration-date" class="required" placeholder="12/32" />
+            <span class="span-required"> Ano maximo é 32 </span>
           </div>
 
           <div class="input-wrapper">
             <label for="security-code">CVC</label>
-            <input id="security-code" placeholder="123" />
+            <input id="security-code" class="required" placeholder="123" />
+            <span class="span-required">
+              Quantidade de minima de digitos 3
+            </span>
           </div>
         </div>
 

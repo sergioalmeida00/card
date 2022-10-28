@@ -1,3 +1,6 @@
+import { resetForm } from "./variableInputs"
+import { resetCard } from "./variableInputs"
+
 export const modal = document.querySelector("dialog")
 modal.addEventListener("click", () => {
   modal.close()
@@ -26,6 +29,8 @@ export function validationForm(
       `Olá, <strong>${cardHolderMasked}</strong> sua solicitação foi realizada com sucesso!`,
       "/success.svg"
     )
+    resetForm()
+    resetCard()
   }
 }
 
